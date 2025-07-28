@@ -1,0 +1,15 @@
+- *BIN* (*SBIN*) = directorio estatico, almacena ejecutable de usuario ! Mientras que el SBIM almacena binarios. Solo Root
+- *BOOT* = estatico, ejecutables y archivos ejecutables al iniciar el sistema. Gestor arranque Grub.
+- *DEV* = incluye dispositivo de almacenamiento en forma de archivo q estan conectado al sistema. Entiende volumen logico
+- *ETC* = almacena archivo config a level SO y aplicaciones instaladas a priori. No contiene binarios. Archivos de Config.
+- *HOME* = directorio usuarios estandar. Archivos de Usuario. Archivos que guardan config de cada usuario, etc.
+- *LIB* = incluye biblioteca escenciales todos los binarios en BIN y SBIN, en el kernel.
+- *MEDIA* = punto de montaje de todas las unidades. memorias USB, particiones disco
+- *OPS* = archivos solo lectura, archivos autocontenidos, no usa estandares de almacenamiento (como directorio Program File en Windows pero determinados programas que vienen auto-contenidos !!!!)
+- *PROC* = contiene info de proceso y app que se ejecutan en un momento det en el sistema, almacena archivos virtuales, contenido nulo.
+- *ROOT* = dir Home del User Root ! cuelga a la raiz del SO
+- *SRV* = almacena archivo y dir de servidores instalados dentro del sistema
+- *SYS* = contiene archivos virtuales. Evolucion PROC. Ditribuye de forma JERARQUICA !!!
+- *TMP* = temporal ! almacena arhivo temporal !!! importante al comprometer maquinas. Archivos de corta duración.
+- *USR* = user sistem risource: almacena archi solo lectura, mas soft paquete de distribucion. Almacena SubDirectorios.
+- *VAR* = en raiz. Info del sistema, user, base de dato, applications. Actua modo de registro del sistema !!!
