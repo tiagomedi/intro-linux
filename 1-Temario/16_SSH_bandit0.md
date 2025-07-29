@@ -456,3 +456,55 @@ sshpass -p 'tRae0UfB9v0UzbCdn9cY0gQnds9GF58Q' ssh bandit22@bandit.labs.overthewi
 
 # Un programa se ejecuta automáticamente a intervalos regulares desde cron, el programador de tareas basado en tiempo. Busque la configuración en /etc/cron.d/ y vea qué comando se está ejecutando.
 ## NOTA: Consultar scripts de shell escritos por otros usuarios es una habilidad muy útil. El script para este nivel está diseñado para facilitar su lectura. Si tiene problemas para comprender su función, intente ejecutarlo para ver la información de depuración que muestra.
+    cd /etc/cron.d/
+    cat cronjob_bandit23 => /usr/bin/cronjob_bandit23.sh
+    cat /usr/bin/cronjob_bandit23.sh
+        #!/bin/bash
+
+        myname=$(whoami)
+        mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1) => ESTO ES LA CLAVE
+
+        echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+
+        cat /etc/bandit_pass/$myname > /tmp/$mytarget
+        echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+            8ca319486bfbbc3663ea0fbe81326349 => ESTO ES LO QUE SE GUARDA EN MYTARGET
+
+        POR LO TANTO: /tmp/$mytarget == /tmp/8ca319486bfbbc3663ea0fbe81326349
+
+        cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+
+        passwd: 0Zf11ioIjMVN551jX3CmStKLYqjk54Ga
+
+sshpass -p '0Zf11ioIjMVN551jX3CmStKLYqjk54Ga' ssh bandit23@bandit.labs.overthewire.org -p 2220 *bandit23*
+
+# Un programa se ejecuta automáticamente a intervalos regulares desde cron, el programador de tareas basado en tiempo. Busque la configuración en /etc/cron.d/ y vea qué comando se está ejecutando.
+## NOTA: Este nivel requiere que cree su primer script de shell. ¡Es un gran paso y debería estar orgulloso de sí mismo cuando lo supere!
+## NOTA 2: Tenga en cuenta que su script de shell se elimina una vez ejecutado, así que le recomendamos guardar una copia.
+    cd /etc/cron.d/
+    cat cronjob_bandit24 => /usr/bin/cronjob_bandit24.sh
+    cat /usr/bin/cronjob_bandit24.sh
+
+    #!/bin/bash
+    myname=$(whoami)
+
+    cd /var/spool/$myname/foo => OJO
+    echo "Executing and deleting all scripts in /var/spool/$myname/foo:"
+    for i in * .*; => ir iterando en cada nombre de cada archivo.
+    do
+        if [ "$i" != "." -a "$i" != ".." ];
+        then
+            echo "Handling $i"
+            owner="$(stat --format "%U" ./$i)" => se queda con el propietario creador del archivo
+            if [ "${owner}" = "bandit23" ]; then
+                timeout -s 9 60 ./$i => tarera aislada.
+            fi
+            rm -f ./$i
+        fi
+    done
+
+    cd /var/spool/bandit24/
+    touch test
+
+- Se creara un script: touch script.sh => chmod +x script.sh
+#!/bin/bash
