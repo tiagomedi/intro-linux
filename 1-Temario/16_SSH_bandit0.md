@@ -558,3 +558,80 @@ CABE DESTACAR QUE ESTA CLAVE NO SIRVE DE NADA YA QUE BANDIT26 NO ES UN BASH, SIN
 
 # Hay un repositorio Git en ssh://bandit27-git@localhost/home/bandit27-git/repo a través del puerto 2220. La contraseña del usuario bandit27-git es la misma que la del usuario bandit27.
 ## Clonar el repositorio y buscar la contraseña para el siguiente nivel.
+    mktemp -d
+    git clone ssh://bandit27-git@localhost/home/bandit27-git/repo
+    LA PASSWD ES LA DE BANDI27
+
+    una vez clonado: cd repo
+    cat README => AQUI SE ENCUENTRA LA PASSWD
+
+# Hay un repositorio Git en ssh://bandit28-git@localhost/home/bandit28-git/repo a través del puerto 2220. La contraseña del usuario bandit28-git es la misma que la del usuario bandit28.
+## Clonar el repositorio y encontrar la contraseña para el siguiente nivel.
+    git clone ssh://bandit28-git@localhost/home/bandit28-git/repo
+    LA PASSWD ES LA DE BANDI28  
+
+    una vez clonado: cd repo
+    cat README => AQUI NO PONE LA CONTRASEÑA SOLO xxxxxxxxxx
+    - Aqui entra en juego ver los commits pasados para ver quien hizo este cambio en la contraseña!!!
+    
+    git log => para ver los cambios que se han heco
+        - Aqui muestra un identificador : 'identificador'
+    
+    git show 'identificador' => AQUI SE ENCUENTRA LA PASSWD QUE QUITO EL SINVERGUENZA
+
+# Hay un repositorio Git en ssh://bandit29-git@localhost/home/bandit29-git/repo a través del puerto 2220. La contraseña del usuario bandit29-git es la misma que la del usuario bandit29.
+## Clonar el repositorio y buscar la contraseña para el siguiente nivel.
+    git clone ssh://bandit29-git@localhost/home/bandit29-git/repo
+    LA PASSWD ES LA DE BANDI29  
+
+    una vez clonado: cd repo
+    cat README.md => no hay nada
+    git log
+    git show 'identificador' -> en ambos no se ven nada
+
+    - Hay que operar en ramas (bifurcación)
+    git branch -a => para ver las ramas
+    git checkout dev => esta es la rama
+    - Dentro de la rama dev
+    cat README.md -> Aqui si muestra la PASSWD de Bandit30
+
+# There is a git repository at ssh://bandit30-git@localhost/home/bandit30-git/repo via the port 2220. The password for the user bandit30-git is the same as for the user bandit30.
+## Clone the repository and find the password for the next level.
+    git clone ssh://bandit30-git@localhost/home/bandit30-git/repo
+    LA PASSWD ES LA DE BANDI30  
+
+    git tag => secret
+    git show secret => lista la clave de bandit30
+
+# There is a git repository at ssh://bandit31-git@localhost/home/bandit31-git/repo via the port 2220. The password for the user bandit31-git is the same as for the user bandit31.
+## Clone the repository and find the password for the next level.
+    git clone ssh://bandit31-git@localhost/home/bandit31-git/repo
+    LA PASSWD ES LA DE BANDI31
+
+    cat README.md => dice que se tiene que crear un archivo llamado key.txt que contenga May I come in?
+    touch key.txt -> May I come in?
+
+    git add -f key.txt
+    git commit -m "Creamos un nuevo archivo"
+    git push -u origin master
+
+    - Luego colocar yes para aceptar y te entrega en la consola :
+    remote: Well done!
+    remote: PASSWD
+
+# After all this git stuff, it’s time for another escape. Good luck!
+    - Toma variables de entorno.
+
+    $SHELL => WELCOME TO THE UPPERCASE SHELL
+    $0 -> LOGRA ENTRAR A UNA SH, ya que es el contexto anterior de raiz. Esto sirve ya que la lanza a traves de un sh.
+
+    - Una vez dentro de $0 :
+        whoami => bandit33
+        bash => se accede a una BASH
+
+    Una vez dentro de la Bash se puede seguir operando.
+        cd ..
+        cd bandit33
+        cat README
+
+# JUEGO TERMINADO HASTA LA FECHA ...

@@ -12,4 +12,4 @@
 - *SYS* = contiene archivos virtuales. Evolucion PROC. Ditribuye de forma JERARQUICA !!!
 - *TMP* = temporal ! almacena arhivo temporal !!! importante al comprometer maquinas. Archivos de corta duración.
 - *USR* = user sistem risource: almacena archi solo lectura, mas soft paquete de distribucion. Almacena SubDirectorios.
-- *VAR* = en raiz. Info del sistema, user, base de dato, applications. Actua modo de registro del sistema !!!
+- *VAR* = en raiz. Info del sistema, user, base de dato, applications. Actua modo de registro del sistema !!! VARIA
