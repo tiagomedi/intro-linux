@@ -28,6 +28,7 @@ function helpPanel(){
   echo -e "\t${purpleColour}o)${endColour} ${grayColour}Buscar maquinas por sistema operativo (Linux, Windows)${endColour}"
   echo -e "\t${purpleColour}u)${endColour} ${grayColour}Descargar o Actualizar archivos necesarios${endColour}"
   echo -e "\t${purpleColour}i)${endColour} ${grayColour}Buscar por direccion IP${endColour}"
+  echo -e "\t${purpleColour}s)${endColour} ${grayColour}Buscar por Skills${endColour}"
   echo -e "\t${purpleColour}y)${endColour} ${grayColour}Obtener URL de la resolucion de la maquina en YouTube${endColour}"
   echo -e "\t${purpleColour}h)${endColour} ${grayColour}Mostrar este panel de ayuda${endColour}\n"
 }
@@ -128,6 +129,17 @@ function getOSDifficulty(){
   fi
 }
 
+function searchSkills(){
+  skills="$1"
+  skills_checker="$(cat bundle.js | grep "skills: " -B 6 | grep "$skills" -i -B 6 | grep "name: " | awk 'NF{print $NF}' | tr -d '"' | tr -d ',' | column)"
+  if [ "$skills_checker" ]; then
+    echo -e "\n${yellowColour}[+]${endColour} ${grayColour}Listando maquinas con la habilidad${endColour}${greenColour} $skills${endColour}\n"
+    cat bundle.js | grep "skills: " -B 6 | grep "$skills" -i -B 6 | grep "name: " | awk 'NF{print $NF}' | tr -d '"' | tr -d ',' | column
+  else
+    echo -e "\n${redColour}[!] La habilidad proporcionada no existe${endColour}\n"
+  fi
+}
+
 # Indicadores
 declare -i parameter_counter=0
 
@@ -136,13 +148,14 @@ declare -i chivato_difficulty=0
 declare -i chivato_so=0
 
 # Hacer un menu
-while getopts "m:d:o:ui:y:h" arg; do
+while getopts "m:d:o:ui:s:y:h" arg; do
   case $arg in
     m) machineName=$OPTARG; let parameter_counter+=1;;
     d) difficulty=$OPTARG; chivato_difficulty=1; let parameter_counter+=5;;
     o) so=$OPTARG; chivato_so=1; let parameter_counter+=6;;
     u) let parameter_counter+=2;;
     i) ipAddress=$OPTARG; let parameter_counter+=3;;
+    s) skills=$OPTARG; let parameter_counter+=7;;
     y) machineName=$OPTARG; let parameter_counter+=4;;
     h) helpPanel;;
   esac
@@ -163,6 +176,8 @@ elif [ $parameter_counter -eq 6 ]; then
   systemOperative $so
 elif [ $chivato_difficulty -eq 1 ] && [ $chivato_so -eq 1 ]; then
   getOSDifficulty $difficulty $so
+elif [ $parameter_counter -eq 7 ]; then
+  searchSkills "$skills" # En caso de buscar por skills con mas de una palabra [!]
 else
   helpPanel
 fi
